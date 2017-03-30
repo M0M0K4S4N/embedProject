@@ -1,0 +1,4 @@
+>>> Warning 203 "mesure-degree-w-potentiometer.c" Line 130(1,1): Condition always TRUE
+      Memory usage:   ROM=42%      RAM=15% - 37%
+      0 Errors,  1 Warnings.
+Build Successful.

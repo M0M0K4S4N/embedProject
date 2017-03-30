@@ -1,0 +1,36 @@
+[PROJECT]
+Target=ultrasonic-work.1.0.hex
+Processor_Text=PIC16F886
+CCSVersion=5.063
+Compiler=PCM
+[Target Data]
+FileList=ultrasonic-work.1.0.c
+[ultrasonic-work.1.0.c]
+Type=4
+[mru-list]
+1=ultrasonic-work.1.0.c
+
+[defines]
+buildcount=5
+
+[ProjectLog]
+Days=2
+D1=29-03-2017
+D1_L=1
+D1_L1=[59495]Project Closed.
+D2=30-03-2017
+D2_L=6
+D2_L1=[47254]Project Opened.
+D2_L2=[47295]Started Editing.
+D2_L3=[48047]Stopped Editing.
+D2_L4=[51285]Started Editing.
+D2_L5=[51741]Stopped Editing.
+D2_L6=[52454]Started Editing.
+
+[Opened Files]
+1=ultrasonic-work.1.0.c
+t1=142
+Count=1
+[Units]
+Count=1
+1=ultrasonic-work.1.0 (main)

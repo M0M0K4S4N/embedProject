@@ -1,0 +1,39 @@
+[PROJECT]
+Target=laserProx-work.1.0.hex
+Processor_Text=PIC16F886
+CCSVersion=5.063
+Compiler=PCM
+[Target Data]
+FileList=laserProx-work.1.0.c
+[laserProx-work.1.0.c]
+Type=4
+[mru-list]
+1=laserProx-work.1.0.c
+
+[defines]
+buildcount=12
+
+[ProjectLog]
+Days=1
+D1=29-03-2017
+D1_L=8
+D1_L1=[59515]Started Editing.
+D1_L2=[60959]Stopped Editing.
+D1_L3=[61588]Started Editing.
+D1_L4=[61975]Stopped Editing.
+D1_L5=[63894]Started Editing.
+D1_L6=[64567]Stopped Editing.
+D1_L7=[70391]Started Editing.
+D1_L8=[70940]Stopped Editing.
+
+[Opened Files]
+1=laserProx-work.1.0.c
+t1=204
+Count=2
+2=VL53L0X\VL53L0X.h
+t2=1
+3=F:\Program Files (x86)\PICC\Devices\16F886.h
+t3=723
+[Units]
+Count=1
+1=laserProx-work.1.0 (main)

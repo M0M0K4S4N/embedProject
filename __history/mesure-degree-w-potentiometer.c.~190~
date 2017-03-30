@@ -1,0 +1,179 @@
+#include <16F886.h>
+
+#device ADC=10 *=16
+
+#include <math.h>
+
+#FUSES NOWDT //No Watch Dog Timer
+#FUSES PUT //Power Up Timer
+#FUSES NOMCLR //Master Clear pin not enabled
+#FUSES NOPROTECT //Code not protected from reading
+#FUSES NOCPD //No EE protection
+#FUSES BROWNOUT //Brownout reset
+#FUSES IESO //Internal External Switch Over mode enabled
+#FUSES FCMEN //Fail-safe clock monitor enabled
+#FUSES NOLVP //No low voltage prgming, B3(PIC16) or B5(PIC18) used for I/O
+#FUSES NODEBUG //No Debug mode for ICD
+#FUSES NOWRT //Program memory not write protected
+#FUSES BORV40 //Brodddddwnout reset at 4.0V
+#FUSES RESERVED //Used to set the reserved FUSE bits
+#FUSES INTRC_IO 
+
+#use delay(clock=8M)
+
+#use rs232(baud=9600,parity=N,xmit=PIN_C6,rcv=PIN_C7,bits=8)
+#use i2c(MASTER, I2C1, FORCE_HW)
+////////////////////////////////////////////////////////////
+//define LCD Display 
+////////////////////////////////////////////////////////////
+#define SLAVE_ADDRESS  0xB0
+#define DISPLAY_ADDRESS 0xB4
+#define REGISTER_SIZE  8   
+#define DISPLAY_CMD_SEND_VALUE 2
+#define DISPLAY_CMD_SEND_LONG_TEXT 5
+#define DISPLAY_CMD_CLS 6
+#define DISPLAY_CMD_SETPOS 8
+////////////////////////////////////////////////////////////
+//define LCD Display 
+////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////
+//LCD Display Funtion 
+///////////////////////////////////////////////////////////////////////////
+int16 rotaryR;
+float degree,distance,tall,rad;
+
+void displayLongText(char* text) {
+
+   int i ;
+   i2c_start();
+   i2c_write(DISPLAY_ADDRESS);
+   i2c_write(DISPLAY_CMD_SEND_LONG_TEXT);
+
+   for(i=0;text[i]!='\0';i++)
+   {
+      i2c_write(text[i]);
+
+   }
+   i2c_write('\0');
+   i2c_stop();
+
+//delay_ms(100);
+
+}
+
+
+
+
+void clearDisplay(){
+
+   i2c_start();
+   i2c_write(DISPLAY_ADDRESS);
+   i2c_write(DISPLAY_CMD_CLS);
+   i2c_stop();
+}
+
+void setDisplayPos(int pos){
+   i2c_start();
+   i2c_write(DISPLAY_ADDRESS);
+   i2c_write(DISPLAY_CMD_SETPOS);
+   i2c_write(pos);
+   i2c_write('\0');
+   i2c_stop();
+}
+///////////////////////////////////////////////////////////////////////////
+//LCD Display Funtion 
+///////////////////////////////////////////////////////////////////////////
+
+
+float distanceFromUltrasonic(){
+
+   float distance;
+   output_high(PIN_C0);
+   delay_us(20);
+   output_low(PIN_C0);
+   
+   while(!input(PIN_C1)) {}
+   set_timer1(0);
+   while(input(PIN_C1)) {
+   if(get_timer1() >= 65534) return -1;
+   }
+   distance = get_timer1()*4*0.0005; //time ms
+   distance = distance *0.3497/*m/ms*/  *100; // distance in cm
+
+      
+   return distance ;
+    
+}
+
+
+
+
+
+
+
+void main() {
+    setup_timer_1(T1_INTERNAL|T1_DIV_BY_8); 
+
+    
+   double a=0;
+  
+    setup_adc_ports(sAN0); // setup PIN A0 as analog input 
+    setup_adc( ADC_CLOCK_INTERNAL ); 
+
+    printf("Sampling:\r\n");
+    set_adc_channel( 0 ); // set the ADC chaneel to read 
+    delay_ms(50); // wait for the sensor reading to finish
+    
+     // float distanceToFloor=0;
+    while (1) {
+      
+
+       
+      rotaryR = read_adc();
+      degree = 15.0*(rotaryR-396) / 23;
+      distance = distanceFromUltrasonic();
+
+      rad = degree * 0.0174533;
+      tall = (tan(rad) * distance ) ;
+     // tall = tall +  0;
+      
+      printf("Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n", rotaryR,degree,distance,tall);
+      delay_ms(100);
+      clearDisplay();
+      setDisplayPos(1);
+      char* message;
+      displayLongText((char*)"Deg:");
+      if(degree >= 90) sprintf( message , "----" );
+      else sprintf( message , "%.1f" , degree);
+       setDisplayPos(5);
+      displayLongText(message);
+      
+      setDisplayPos(9);
+      displayLongText((char*)"Dis:");
+      sprintf( message , "%.1f" ,distance /100.0);
+      displayLongText(message);
+
+//!      if(!input(PIN_B7)){
+//!         distanceToFloor = distanceFromUltrasonic();
+//!      }
+      setDisplayPos(17);
+      displayLongText((char*)"tall:");
+      sprintf( message , "%.1f" ,tall );
+      displayLongText(message);
+
+
+      
+      
+      
+      delay_ms(300);
+      
+     
+       
+       //delay_ms(1000);
+    }
+
+}
+
+
+

@@ -1,0 +1,222 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004-005 @WRITE_PROGRAM_MEMORY8.P2
+015     CCP_1
+015     CCP_1_LOW
+016     CCP_1_HIGH
+01B     CCP_2
+01B     CCP_2_LOW
+01C     CCP_2_HIGH
+020     @TRIS_C
+021-022 rotaryR
+023-026 degree
+027-02A distance
+02B-02E tall
+02F-032 rad
+033-034 @sprintf_string
+035-038 MAIN.toFloor
+035-038 atan2.y
+039-044 MAIN.@STRPARAM
+039-03C atan2.x
+03D-040 atan2.z
+041.0   atan2.sign
+042     atan2.quad
+045-046 MAIN.message
+047-04C MAIN.@STRPARAM
+04D-050 distanceFromUltrasonic.distance
+04D-050 @PRINTF_L32D_9600_62_63FPFPF.P1
+04D-04E @PRINTF_LU_9600_62_63.P2
+04D     @PSTRINGCN7_9600_62_63.P3
+04D-050 tan.x
+04D     setDisplayPos.pos
+04D     MAIN.@SCRATCH1
+04D     @PSTRINGC7_9600_62_63.@SCRATCH1
+04D     @PSTRINGC7_760.@SCRATCH1
+04E     @delay_ms1.P1
+04E     MAIN.@SCRATCH2
+04E     @PSTRINGC7_9600_62_63.@SCRATCH2
+04E     @PSTRINGCN7_9600_62_63.@SCRATCH1
+04E     @PSTRINGC7_760.@SCRATCH2
+04F-050 displayLongText.text
+04F     MAIN.@SCRATCH3
+04F     @PSTRINGC7_9600_62_63.@SCRATCH3
+04F     @PSTRINGCN7_9600_62_63.@SCRATCH2
+04F     @PRINTF_LU_9600_62_63.@SCRATCH1
+04F     @PSTRINGC7_760.@SCRATCH3
+050     MAIN.@SCRATCH4
+050     @PSTRINGC7_9600_62_63.@SCRATCH4
+050     @PSTRINGCN7_9600_62_63.@SCRATCH3
+050     @PRINTF_LU_9600_62_63.@SCRATCH2
+050     @PSTRINGC7_760.@SCRATCH4
+051     @PRINTF_L32D_9600_62_63FPFPF.P1
+051-054 @PRINTF_L32D_760FPFPF.P2
+051-054 tan.c
+051     displayLongText.i
+051     distanceFromUltrasonic.@SCRATCH1
+051     MAIN.@SCRATCH5
+051     @PSTRINGCN7_9600_62_63.@SCRATCH4
+051     @PRINTF_LU_9600_62_63.@SCRATCH3
+052     displayLongText.@SCRATCH1
+052     distanceFromUltrasonic.@SCRATCH2
+052     MAIN.@SCRATCH6
+052     @PRINTF_LU_9600_62_63.@SCRATCH4
+052     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH1
+053     @I2C_WRITEU_1.P1
+053     distanceFromUltrasonic.@SCRATCH3
+053     @PRINTF_LU_9600_62_63.@SCRATCH5
+053     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH2
+054     distanceFromUltrasonic.@SCRATCH4
+054     @PRINTF_LU_9600_62_63.@SCRATCH6
+054     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH3
+055     @PRINTF_L32D_760FPFPF.P1
+055-058 tan.s
+055     @PRINTF_LU_9600_62_63.@SCRATCH7
+055     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH4
+056     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH5
+056     @PRINTF_L32D_760FPFPF.@SCRATCH1
+057     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH6
+057     @PRINTF_L32D_760FPFPF.@SCRATCH2
+058     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH7
+058     @PRINTF_L32D_760FPFPF.@SCRATCH3
+059-05C @DIVFF.P1
+059-05C sin.x
+059     @PRINTF_L32D_9600_62_63FPFPF.@SCRATCH8
+059     @PRINTF_L32D_760FPFPF.@SCRATCH4
+05A     @PRINTF_L32D_760FPFPF.@SCRATCH5
+05B     @PRINTF_L32D_760FPFPF.@SCRATCH6
+05C     @PRINTF_L32D_760FPFPF.@SCRATCH7
+05D-060 @DIVFF.P1
+05D     sin.@SCRATCH1
+05D     @PRINTF_L32D_760FPFPF.@SCRATCH8
+05E-061 @DIV3232.P1
+05E-061 @FTOSD.P2
+05E     @SPRINTF.P3
+05E     sin.@SCRATCH2
+05F     sin.@SCRATCH3
+060     sin.@SCRATCH4
+061-064 cos.x
+061     @DIVFF.@SCRATCH1
+062-065 @DIV3232.P1
+062     @DIVFF.@SCRATCH2
+062     @FTOSD.@SCRATCH1
+063     @DIVFF.@SCRATCH3
+064     @DIVFF.@SCRATCH4
+065-068 cos.y
+065     @DIVFF.@SCRATCH5
+066     @DIVFF.@SCRATCH6
+066     @DIV3232.@SCRATCH1
+067     @DIV3232.@SCRATCH2
+068     @DIV3232.@SCRATCH3
+069-06C cos.t
+069     @DIV3232.@SCRATCH4
+06A     @DIV3232.@SCRATCH5
+06D-070 cos.t2
+071     cos.quad
+072     cos.i
+073-076 cos.frac
+077     @SCRATCH
+078     @SCRATCH
+078     _RETURN_
+079     @SCRATCH
+07A     @SCRATCH
+07B     cos.@SCRATCH1
+07C     cos.@SCRATCH2
+07D     cos.@SCRATCH3
+07E     cos.@SCRATCH4
+0A0-0B3 cos.p
+0B4-0B7 @FLT.P1
+0B4-0B7 @SFTOI.P2
+0B8-0BB @FLT.P1
+0B8-0BB @MULFF.P2
+0B8-0B9 @ITOF.P3
+0B8-0BB @ADDFF.P4
+0BC-0BF @ADDFF.P1
+0BC-0BF @MULFF.P2
+0BC     @FLT.@SCRATCH1
+0BD     @FLT.@SCRATCH2
+0C0     @MULFF.@SCRATCH1
+0C0     @ADDFF.@SCRATCH1
+0C1     @MULFF.@SCRATCH2
+0C1     @ADDFF.@SCRATCH2
+0C2     @MULFF.@SCRATCH3
+0C2     @ADDFF.@SCRATCH3
+0C3     @MULFF.@SCRATCH4
+0C3     @ADDFF.@SCRATCH4
+0C4     @MULFF.@SCRATCH5
+0C4     @ADDFF.@SCRATCH5
+0C5     @ADDFF.@SCRATCH6
+0C6     @ADDFF.@SCRATCH7
+0C7     @ADDFF.@SCRATCH8
+107.6   C1OUT
+108.6   C2OUT
+10D-10E @READ_PROGRAM_MEMORY8.P1
+10D-10E @WRITE_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+000004  @const765.call
+000014  @const759.call
+00001A  @const767.call
+000035  @const783.call
+000038  @PSTRINGC7_9600_62_63
+000092  @delay_ms1
+0000A6  @ITOF
+0000C5  @MULFF
+00013C  @DIVFF
+000206  distanceFromUltrasonic
+0002C7  @I2C_WRITEU_1
+0002D7  clearDisplay
+0002E8  setDisplayPos
+0002FE  displayLongText
+000327  @FLT
+000368  @ADDFF
+0004AE  cos
+000517  @SFTOI
+0006D4  tan
+00070D  sin
+000754  @PSTRINGCN7_9600_62_63
+0007AD  @FTOSD
+0007CC  @SPRINTF
+000800  @PRINTF_LU_9600_62_63
+00085B  @DIV3232
+0008AA  @PRINTF_L32D_9600_62_63FPFPF
+00097D  @PSTRINGC7_760
+0009D9  @PRINTF_L32D_760FPFPF
+000AB0  @cinit1
+000AB0  MAIN
+000AE7  @cinit2
+
+Project Directory:
+    D:\#cpeembed\#project\
+
+Project Files:
+    mesure-degree-w-potentiometer.c                         [29-Mar-17 00:31  CRC=71E2E30C]
+    F:\Program Files (x86)\PICC\Devices\16F886.h            [16-Sep-16 11:40  CRC=EC068B0C]
+    F:\Program Files (x86)\PICC\Drivers\math.h              [16-Jan-15 11:40  CRC=6A8358B0]
+
+Source signature=32F01F78
+Program memory checksum=0000
+Program memory CRC=0000
+Hex file CRC=9123
+
+Units:
+    mesure-degree-w-potentiometer (main)
+
+Compiler Settings:
+    Processor:      PIC16F886
+    Pointer Size:   16
+    ADC Range:      0-1023
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Compile Mode:       CCS5
+
+Output Files:
+    XREF file:   mesure-degree-w-potentiometer.xsym
+    Errors:      mesure-degree-w-potentiometer.err
+    Ext Symbols: mesure-degree-w-potentiometer.esym
+    INHX8:       mesure-degree-w-potentiometer.hex
+    Symbols:     mesure-degree-w-potentiometer.sym
+    List:        mesure-degree-w-potentiometer.lst
+    Debug/COFF:  mesure-degree-w-potentiometer.cof
+    Project:     mesure-degree-w-potentiometer.ccspjt
+    Call Tree:   mesure-degree-w-potentiometer.tre
+    Statistics:  mesure-degree-w-potentiometer.STA

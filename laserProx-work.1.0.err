@@ -1,0 +1,4 @@
+>>> Warning 203 "laserProx-work.1.0.c" Line 172(1,1): Condition always TRUE
+      Memory usage:   ROM=98%      RAM=23% - 54%
+      0 Errors,  1 Warnings.
+Build Successful.
