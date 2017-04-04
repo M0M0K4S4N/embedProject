@@ -163,16 +163,14 @@ float setDistanceFromUltrasonic(){
    {    
      time = get_timer1();
    }
-   
-   float distance = time * 8*0.2 *0.001; //time in ms
-   distance *= 34.7867; // to cm
+   float distance = time * 50.0/48.0;
    //printf("Distance(mm) from the light to Lens = %Lu\r\n", distance);
    //setMaxCount(getDistanceToMove(distance));
    //delay_ms(1000);
     return distance;
 }
 
- 
+
 
 
 void main() {

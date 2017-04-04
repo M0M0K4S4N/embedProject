@@ -14,7 +14,7 @@ Type=4
 buildcount=12
 
 [ProjectLog]
-Days=1
+Days=2
 D1=29-03-2017
 D1_L=8
 D1_L1=[59515]Started Editing.
@@ -25,10 +25,14 @@ D1_L5=[63894]Started Editing.
 D1_L6=[64567]Stopped Editing.
 D1_L7=[70391]Started Editing.
 D1_L8=[70940]Stopped Editing.
+D2=30-03-2017
+D2_L=2
+D2_L1=[60415]Project Opened.
+D2_L2=[60455]Project Closed.
 
 [Opened Files]
 1=laserProx-work.1.0.c
-t1=204
+t1=33
 Count=2
 2=VL53L0X\VL53L0X.h
 t2=1

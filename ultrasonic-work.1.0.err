@@ -1,4 +1,4 @@
->>> Warning 203 "ultrasonic-work.1.0.c" Line 125(1,1): Condition always TRUE
-      Memory usage:   ROM=41%      RAM=15% - 37%
+>>> Warning 203 "ultrasonic-work.1.0.c" Line 190(1,1): Condition always TRUE
+      Memory usage:   ROM=42%      RAM=16% - 37%
       0 Errors,  1 Warnings.
 Build Successful.

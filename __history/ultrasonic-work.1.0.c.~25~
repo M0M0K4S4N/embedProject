@@ -58,12 +58,7 @@ void displayLongText(char* text) {
    i2c_write('\0');
    i2c_stop();
 
-//delay_ms(100);
-
 }
-
-
-
 
 void clearDisplay(){
 
@@ -86,20 +81,22 @@ void setDisplayPos(int pos){
 ///////////////////////////////////////////////////////////////////////////
 
 
+
+
 float distanceFromUltrasonic(){
 
    float distance;
    output_high(PIN_C0);
-   delay_us(20);
+   delay_us(10);
    output_low(PIN_C0);
    
    while(!input(PIN_C1)) {}
    set_timer1(0);
    while(input(PIN_C1)) {
-   if(get_timer1() >= 65534) return -1;
+   //if(get_timer1() >= 65534) return -1;
    }
-   distance = get_timer1()*4*0.0005; //time ms
-   distance = distance *0.3497/*m/ms*/  *100; // distance in cm
+   distance = get_timer1()*4*0.0005; //convert time to ms
+   distance = distance *0.3497/* metre/ms*/  *100; // distance in cm
 
       
    return distance ;
@@ -110,12 +107,18 @@ float distanceFromUltrasonic(){
 ///////////////////////////////////////////////////////////////////////////
 
 
+#INT_TIMER1
+void timer1_isr() 
+   set_timer1(65286); // ใส่คำสั่งนี้ใน ISR เสมอ เพื่อรักษาคาบให้คงที่
 
-
+}
 
 
 void main() {
     setup_timer_1(T1_INTERNAL|T1_DIV_BY_8); 
+    set_timer1(65286); 
+    enable_interrupts(INT_TIMER1);
+    enable_interrupts(GLOBAL);
 
    
     setup_adc_ports(sAN0); 
@@ -130,8 +133,9 @@ void main() {
       
        
       rotaryR = read_adc();
-      degree = 90.0*(rotaryR-394) / 137;
+      degree = 155.0*(1021 - rotaryR) / 387.0;
       distance = distanceFromUltrasonic();
+//      distance =setDistanceFromUltrasonic();
  
 
       if(!input(PIN_B7)){
@@ -145,7 +149,7 @@ void main() {
 
       rad = degree * 0.0174533;
       tall = (tan(rad) * distance ) + toFloor;
-     // tall = tall +  0;
+ 
       
       printf("Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n", rotaryR,degree,distance,tall);
       delay_ms(100);
@@ -162,13 +166,15 @@ void main() {
       
       setDisplayPos(9);
       displayLongText((char*)"Dis:");
-      sprintf( message , "%.1lf" ,(float)distance /100.0);
+      sprintf( message , "%.2lf" ,(float)distance /100.0);
       displayLongText(message);
 
 
       setDisplayPos(17);
       displayLongText((char*)"tall:");
-      sprintf( message , "%.1f" ,tall );
+      
+      if(degree >= 90) sprintf( message , "----" );
+      else sprintf( message , "%.1f" ,tall );
       displayLongText(message);
 
 

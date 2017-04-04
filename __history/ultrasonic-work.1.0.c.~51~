@@ -83,46 +83,52 @@ typedef struct
 {
  struct
  {
-int16 X;
-  int16 Y;
-   int16 Z;
+  signed int X;
+  signed int Y;
+  signed int Z;
  }Accel;
- int16 Temperatura;
+ signed int Temperatura;
  struct
  {
- int16 X;
-  int16 Y;
-  int16 Z;
+  signed int X;
+  signed int Y;
+  signed int Z;
  }Gyro;
 }MPU6050;
 //// test mpu6050
 void MPU6050_init(){
 
     i2c_start();
-    i2c_write( MPU6050_ADDRESS );
-    i2c_write( MPU6050_RA_PWR_MGMT_1 );
-    i2c_write( 2 ); //Sleep OFF
-    i2c_write( 0 ); 
+    i2c_wirte( MPU6050_ADDRESS );
+    i2c_wirte( MPU6050_RA_PWR_MGMT_1 );
+    i2c_wirte( 2 ); //Sleep OFF
+    i2c_wirte( 0 ); 
     i2c_stop();
     i2c_start();
-    i2c_write( MPU6050_ADDRESS );
-    i2c_write( MPU6050_RA_GYRO_CONFIG );
-    i2c_write( 0 ); //gyro_config, +-250 ?/s
-    i2c_write( 0 ); //accel_config +-2g
-    i2c_stop();
+    i2c_wirte( MPU6050_ADDRESS );
+    i2c_wirte( MPU6050_RA_GYRO_CONFIG );
+    i2c_wirte( 0 ); //gyro_config, +-250 ?/s
+    i2c_wirte( 0 ); //accel_config +-2g
+    i2c_stop();();
 
 }
-int16 MPU6050_Read( )
+void MPU6050_Read( MPU6050 *Sensor )
 {
  i2c_start();
- i2c_write( MPU6050_ADDRESS );
- i2c_write( MPU6050_RA_ACCEL_XOUT_H );
+ i2c_wirte( MPU6050_ADDRESS );
+ i2c_wirte( MPU6050_RA_ACCEL_XOUT_H );
  i2c_start();
- i2c_write( MPU6050_ADDRESS | 1 );
- int16 x = ( i2c_read(1) << 8 ) | i2c_read(0);
-
+ i2c_wirte( MPU6050_ADDRESS | 1 );
+ Sensor->Accel.X = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(1);
+ Sensor->Accel.Y = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(1);
+ Sensor->Accel.Z = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(1);
+ Sensor->Temperatura = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(1);
+ Sensor->Gyro.X = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(1);
+ Sensor->Gyro.Y = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(1);
+ Sensor->Gyro.Z = ( MPU6050_I2C_Rd(1) << 8 ) | MPU6050_I2C_Rd(0);
  i2c_stop();
-   return x;
+ Sensor->Temperatura += 12421;
+ Sensor->Temperatura /= 340;
 }
 
 float distanceFromUltrasonic(){
@@ -151,33 +157,33 @@ float distanceFromUltrasonic(){
 float setDistanceFromUltrasonic(){
    int16 time = 0;
    output_low(PIN_C0);
-   delay_us(10);
+   delay_ms(2);
    output_high(PIN_C0);
-  // delay_ms(20);
-  // output_low(PIN_C0);
+   delay_ms(20);
+   output_low(PIN_C0);
    while(input(PIN_C1) == 0)
    {
-     set_timer1(0);
+     time = 0;
    }
    while(input(PIN_C1) == 1)
    {    
-     time = get_timer1();
+     time++;
+     delay_us(1);
    }
-   
-   float distance = time * 8*0.2 *0.001; //time in ms
-   distance *= 34.7867; // to cm
+   float distance = time * 50.0/48.0;
    //printf("Distance(mm) from the light to Lens = %Lu\r\n", distance);
    //setMaxCount(getDistanceToMove(distance));
    //delay_ms(1000);
     return distance;
 }
 
- 
+
 
 
 void main() {
     setup_timer_1(T1_INTERNAL|T1_DIV_BY_8); 
-    
+
+   
     setup_adc_ports(sAN0); 
     setup_adc( ADC_CLOCK_INTERNAL ); 
 
@@ -185,16 +191,18 @@ void main() {
     delay_ms(50); 
      
     float toFloor ;
-
+    MPU6050_init();
+     MPU6050 angle;
     
     while (1) {
-
+      
+      printf("%lu\r\n",angle.Gyro.X);
        
       rotaryR = read_adc();
       degree = 155.0*(1021 - rotaryR) / 387.0;
       distance = distanceFromUltrasonic();
 //      distance =setDistanceFromUltrasonic();
-      
+ 
 
       if(!input(PIN_B7)){
          toFloor = distance;
@@ -208,8 +216,8 @@ void main() {
       rad = degree * 0.0174533;
       tall = (tan(rad) * distance ) + toFloor;
  
-      int16 x=MPU6050_Read();
-      printf("asd X=%lu  Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n",x,rotaryR,degree,distance,tall);
+      
+      printf(" Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n",rotaryR,degree,distance,tall);
       delay_ms(100);
       clearDisplay();
       setDisplayPos(1);

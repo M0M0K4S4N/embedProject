@@ -1,11 +1,11 @@
 
-ROM used:   3357/8192 (41%)
-            3398/8192 (41%) including unused fragments
+ROM used:   3411/8192 (42%)
+            3426/8192 (42%) including unused fragments
 
-            1.1 Average locations per line
-            10.2 Average locations per statement
+            1.0 Average locations per line
+            9.4 Average locations per statement
 
-RAM used:   56/368 (15%) at main() level
+RAM used:   58/368 (16%) at main() level
             136/368 (37%) worst case
 
 Stack used: 2 worst case (2 in main + 0 for interrupts)
@@ -13,61 +13,64 @@ Stack size: 8
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  187    73  22  ultrasonic-work.1.0.c
+  252   104  29  ultrasonic-work.1.0.c
   756     0   0  F:\Program Files (x86)\PICC\Devices\16F886.h
- 2227   257  78  F:\Program Files (x86)\PICC\Drivers\math.h
+  112     0   0  MPU6050\MPU6050.h
+ 2227   257  71  F:\Program Files (x86)\PICC\Drivers\math.h
 ----- -----
- 3170   330 Total
+ 3347   361 Total
 
 Page ROM  %  RAM    Vol Diff  Functions:
 ---- --- --- ---    --- ----  ----------
 0     65   2   10             @FLT
  Inline         4             @SFTOI
 0     31   1    2             @ITOF
-0    119   4   13             @MULFF
+0    119   3   13             @MULFF
 0    326  10   16             @ADDFF
 0    202   6   14             @DIVFF
-0    550  16   46   1146  9.9  cos
+0    546  16   46   1146  9.9  cos
  Inline         8     44  1.9  sin
 0    128   4   12    176  4.3  tan
 0     20   1    1             @delay_ms1
 0     16   0    1             @I2C_WRITEU_1
+0     16   0    1             @I2C_READU_1
 0     41   1    4    235  4.1  displayLongText
-0     17   1    0     55  1.1  clearDisplay
+0     17   0    0     55  1.1  clearDisplay
 0     22   1    1    106  1.3  setDisplayPos
-0    193   6    8    341  4.9  distanceFromUltrasonic
-1    755  22   30   1566  7.6  MAIN
-0     16   0    0             @const760
-0     27   1    0             @const762
+0     41   1    3    200  3.1  MPU6050_Read
+0    163   5    8    275  3.5  distanceFromUltrasonic
+1    783  23   32   1633  7.6  MAIN
+0     16   0    0             @const779
+0     32   1    0             @const782
 0     89   3    5             @PSTRINGCN7_9600_62_63
-0     91   3    9             @PRINTF_LU_9600_62_63
+0     89   3    9             @PRINTF_LU_9600_62_63
 0     31   1    5             @FTOSD
 1     79   2   13             @DIV3232
 1    211   6   13             @PRINTF_L32D_9600_62_63FPFPF
-0      3   0    0             @const778
+0      3   0    0             @const798
 0     13   0    1             @SPRINTF
-1     90   3    4             @PSTRINGC7_780
-1    215   6   13             @PRINTF_L32D_780FPFPF
-0      3   0    0             @const790
+1     90   3    4             @PSTRINGC7_800
+1    215   6   13             @PRINTF_L32D_800FPFPF
+0      3   0    0             @const810
  Inline         0             @cinit1
 
 Program metrics:
-    Functions               8
-    Statements              330
-    Comments                407
-    Volume (V)              5162
-    Difficulty (D)          33.5
-    Effort to implement (E) 173179
-    Time to implement (T)   2 hours, 40 minutes
+    Functions               9
+    Statements              361
+    Comments                420
+    Volume (V)              5567
+    Difficulty (D)          35.2
+    Effort to implement (E) 196198
+    Time to implement (T)   3 hours, 2 minutes
     Est Delivered Bugs (B)  1
-    Cyclomatic Complexity   11
-    Maintainability (MI)    27
+    Cyclomatic Complexity   10
+    Maintainability (MI)    32
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00003     4  0  
-00004-007FF  2003  41  
-00800-00FFF  1350  698  
+00004-007FF  2029  15  
+00800-00FFF  1378  670  
 01000-017FF     0  2048  
 01800-01FFF     0  2048  
 

@@ -1,5 +1,5 @@
 #include <16F886.h>
-#include "MPU6050\MPU6050.h"
+
 #device ADC=10 *=16
 
 #include <math.h>
@@ -79,51 +79,9 @@ void setDisplayPos(int pos){
 ///////////////////////////////////////////////////////////////////////////
 //LCD Display Funtion 
 ///////////////////////////////////////////////////////////////////////////
-typedef struct
-{
- struct
- {
-int16 X;
-  int16 Y;
-   int16 Z;
- }Accel;
- int16 Temperatura;
- struct
- {
- int16 X;
-  int16 Y;
-  int16 Z;
- }Gyro;
-}MPU6050;
-//// test mpu6050
-void MPU6050_init(){
 
-    i2c_start();
-    i2c_write( MPU6050_ADDRESS );
-    i2c_write( MPU6050_RA_PWR_MGMT_1 );
-    i2c_write( 2 ); //Sleep OFF
-    i2c_write( 0 ); 
-    i2c_stop();
-    i2c_start();
-    i2c_write( MPU6050_ADDRESS );
-    i2c_write( MPU6050_RA_GYRO_CONFIG );
-    i2c_write( 0 ); //gyro_config, +-250 ?/s
-    i2c_write( 0 ); //accel_config +-2g
-    i2c_stop();
 
-}
-int16 MPU6050_Read( )
-{
- i2c_start();
- i2c_write( MPU6050_ADDRESS );
- i2c_write( MPU6050_RA_ACCEL_XOUT_H );
- i2c_start();
- i2c_write( MPU6050_ADDRESS | 1 );
- int16 x = ( i2c_read(1) << 8 ) | i2c_read(0);
 
- i2c_stop();
-   return x;
-}
 
 float distanceFromUltrasonic(){
 
@@ -138,7 +96,7 @@ float distanceFromUltrasonic(){
    //if(get_timer1() >= 65534) return -1;
    }
    distance = get_timer1()*4*0.0005; //convert time to ms
- distance = distance *0.3497/* metre/ms*/  *100; // distance in cm
+   distance = distance *0.3497/* metre/ms*/  *100; // distance in cm
 
       
    return distance ;
@@ -151,33 +109,40 @@ float distanceFromUltrasonic(){
 float setDistanceFromUltrasonic(){
    int16 time = 0;
    output_low(PIN_C0);
-   delay_us(10);
+   delay_ms(2);
    output_high(PIN_C0);
-  // delay_ms(20);
-  // output_low(PIN_C0);
+   delay_ms(20);
+   output_low(PIN_C0);
    while(input(PIN_C1) == 0)
    {
-     set_timer1(0);
+     time = 0;
    }
    while(input(PIN_C1) == 1)
    {    
-     time = get_timer1();
+     time++;
+     delay_us(1);
    }
-   
-   float distance = time * 8*0.2 *0.001; //time in ms
-   distance *= 34.7867; // to cm
+   float distance = time * 50.0/48.0;
    //printf("Distance(mm) from the light to Lens = %Lu\r\n", distance);
    //setMaxCount(getDistanceToMove(distance));
    //delay_ms(1000);
     return distance;
 }
 
- 
+#INT_TIMER1
+void timer1_isr() 
+   set_timer1(65286); // ใส่คำสั่งนี้ใน ISR เสมอ เพื่อรักษาคาบให้คงที่
+
+}
 
 
 void main() {
     setup_timer_1(T1_INTERNAL|T1_DIV_BY_8); 
-    
+    set_timer1(65286); 
+    enable_interrupts(INT_TIMER1);
+    enable_interrupts(GLOBAL);
+
+   
     setup_adc_ports(sAN0); 
     setup_adc( ADC_CLOCK_INTERNAL ); 
 
@@ -185,16 +150,15 @@ void main() {
     delay_ms(50); 
      
     float toFloor ;
-
-    
     while (1) {
-
+      
+      
        
       rotaryR = read_adc();
       degree = 155.0*(1021 - rotaryR) / 387.0;
       distance = distanceFromUltrasonic();
 //      distance =setDistanceFromUltrasonic();
-      
+ 
 
       if(!input(PIN_B7)){
          toFloor = distance;
@@ -208,8 +172,8 @@ void main() {
       rad = degree * 0.0174533;
       tall = (tan(rad) * distance ) + toFloor;
  
-      int16 x=MPU6050_Read();
-      printf("asd X=%lu  Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n",x,rotaryR,degree,distance,tall);
+      
+      printf("Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n", rotaryR,degree,distance,tall);
       delay_ms(100);
       clearDisplay();
       setDisplayPos(1);
