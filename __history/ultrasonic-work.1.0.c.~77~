@@ -1,5 +1,5 @@
 #include <16F886.h>
-
+#include "MPU6050\MPU6050.h"
 #device ADC=10 *=16
 
 #include <math.h>
@@ -81,8 +81,6 @@ void setDisplayPos(int pos){
 ///////////////////////////////////////////////////////////////////////////
 
 
-
-
 float distanceFromUltrasonic(){
 
    float distance;
@@ -96,7 +94,7 @@ float distanceFromUltrasonic(){
    //if(get_timer1() >= 65534) return -1;
    }
    distance = get_timer1()*4*0.0005; //convert time to ms
-   distance = distance *0.3497/* metre/ms*/  *100; // distance in cm
+ distance = distance *0.3497/* metre/ms*/  *100; // distance in cm
 
       
    return distance ;
@@ -109,36 +107,33 @@ float distanceFromUltrasonic(){
 float setDistanceFromUltrasonic(){
    int16 time = 0;
    output_low(PIN_C0);
-   delay_ms(2);
+   delay_us(10);
    output_high(PIN_C0);
-   delay_ms(20);
-   output_low(PIN_C0);
+  // delay_ms(20);
+  // output_low(PIN_C0);
    while(input(PIN_C1) == 0)
    {
-     time = 0;
+     set_timer1(0);
    }
    while(input(PIN_C1) == 1)
    {    
-     time++;
-     delay_us(1);
+     time = get_timer1();
    }
-   float distance = time * 50.0/48.0;
+   
+   float distance = time * 8*0.2 *0.001; //time in ms
+   distance *= 34.7867; // to cm
    //printf("Distance(mm) from the light to Lens = %Lu\r\n", distance);
    //setMaxCount(getDistanceToMove(distance));
    //delay_ms(1000);
     return distance;
 }
 
-
+ 
 
 
 void main() {
     setup_timer_1(T1_INTERNAL|T1_DIV_BY_8); 
-    set_timer1(40536); 
-    enable_interrupts(INT_TIMER1);
-    enable_interrupts(GLOBAL);
-
-   
+    
     setup_adc_ports(sAN0); 
     setup_adc( ADC_CLOCK_INTERNAL ); 
 
@@ -146,15 +141,18 @@ void main() {
     delay_ms(50); 
      
     float toFloor ;
+
+    
     while (1) {
-      
-      
+
        
       rotaryR = read_adc();
-      degree = 155.0*(1021 - rotaryR) / 387.0;
+      //degree = 155.0*(1021 - rotaryR) / 387.0;
+      degree = (float)rotaryR*5/1023;
+      degree = (degree*300)/5;
       distance = distanceFromUltrasonic();
 //      distance =setDistanceFromUltrasonic();
- 
+      
 
       if(!input(PIN_B7)){
          toFloor = distance;
@@ -168,8 +166,7 @@ void main() {
       rad = degree * 0.0174533;
       tall = (tan(rad) * distance ) + toFloor;
  
-      
-      printf("Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n", rotaryR,degree,distance,tall);
+      printf("Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n",rotaryR,degree,distance,tall);
       delay_ms(100);
       clearDisplay();
       setDisplayPos(1);

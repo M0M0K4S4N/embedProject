@@ -148,9 +148,8 @@ void main() {
        
       rotaryR = read_adc();
       //degree = 155.0*(1021 - rotaryR) / 387.0;
-      //degree = log((float)rotaryR) / log(1000.0)  * 1023;
-      degree = (float)degree*5/1023;
-      degree = degree*300 /5;
+      degree = log((float)rotaryR) / log(1000.0)  * 1023;
+    //  degree = (float)degree*5/1023;
      // degree = (degree*150.0)/511;
       distance = distanceFromUltrasonic();
 //      distance =setDistanceFromUltrasonic();

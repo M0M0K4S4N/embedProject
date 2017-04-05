@@ -1,9 +1,10 @@
-D G "__PCM__" 0 0 ""5.063""
-D G "__DEVICE__" 0 0 ""
-D G "__DATE__" 0 0 ""04-Apr-17""
-D G "__TIME__" 0 0 ""23:02:07""
-D G "_UNICODE" 0 0 ""?""
-D G "__EVAL" 0 0 ""?"" "Standard Header file for the PIC16F886 device ////////////////"
+F N "MAIN" 0 134 ""
+D G "__PCM__" 0 212 ""5.063""
+D G "__DEVICE__" 0 212 "886"
+D G "__DATE__" 0 212 ""05-Apr-17""
+D G "__TIME__" 0 212 ""16:08:59""
+D G "_UNICODE" 0 212 ""?""
+D G "__EVAL" 0 212 ""?"" "Standard Header file for the PIC16F886 device ////////////////"
 c L "set_tris_a" 1 3 6 "FUNCTION"
 f N "set_tris_a" 1 39 ""
 v L "value" 1 39 "int8" `54 
@@ -424,9 +425,9 @@ f N "read_adc" 1 445 ""
 f G "read_adc" 1 445 "int16()" `188 
 f N "read_adc" 1 446 ""
 v L "mode" 1 446 "int8" `189 
-f G "read_adc" 1 446 "int16(int8 mode)" `188 
+f G "read_adc" 1 446 "int16(int8 mode,int32 pins)" `188 
 f N "adc_done" 1 447 ""
-f B "adc_done" 1 447 "int8(int8 mode)" `188  "Constants used for SETUP_ADC() are:"
+f B "adc_done" 1 447 "int8(int8 mode,int32 pins)" `188  "Constants used for SETUP_ADC() are:"
 d G "ADC_OFF" 1 449 "0" "ADC Off"
 d G "ADC_CLOCK_DIV_2" 1 450 "0x100"
 d G "ADC_CLOCK_DIV_8" 1 451 "0x40"
@@ -778,9 +779,9 @@ f B "i2c_init" 1 593 "void(int8 stream,int32 baud)" `416  "#use spi() Prototypes
 f N "spi_xfer" 1 596 ""
 f B "spi_xfer" 1 596 "int8()" `419 
 f N "spi_xfer" 1 597 ""
-f G "spi_xfer" 1 597 "int16()" `420 
+f G "spi_xfer" 1 597 "int16(int8 data)" `420 
 f N "spi_xfer" 1 598 ""
-f G "spi_xfer" 1 598 "int32()" `420 
+f G "spi_xfer" 1 598 "int32(int8 data)" `420 
 f N "spi_xfer" 1 599 ""
 v L "data" 1 599 "int8" `421 
 f B "spi_xfer" 1 599 "int8(int8 data)" `420 
@@ -860,18 +861,18 @@ f B "spi_prewrite" 1 618 "void(int8 ,int32 data)" `473
 f N "spi_xfer_in" 1 619 ""
 f B "spi_xfer_in" 1 619 "int8()" `476 
 f N "spi_xfer_in" 1 620 ""
-f G "spi_xfer_in" 1 620 "int16()" `477 
+f G "spi_xfer_in" 1 620 "int16(int8 bits)" `477 
 f N "spi_xfer_in" 1 621 ""
-f G "spi_xfer_in" 1 621 "int32()" `477 
+f G "spi_xfer_in" 1 621 "int32(int8 bits)" `477 
 f N "spi_xfer_in" 1 622 ""
 v L "bits" 1 622 "int8" `478 
 f B "spi_xfer_in" 1 622 "int8(int8 bits)" `477 
 f N "spi_xfer_in" 1 623 ""
 v L "bits" 1 623 "int8" `480 
-f G "spi_xfer_in" 1 623 "int16(int8 bits)" `479 
+f G "spi_xfer_in" 1 623 "int16(int8 bits,int8 bits)" `479 
 f N "spi_xfer_in" 1 624 ""
 v L "bits" 1 624 "int8" `480 
-f G "spi_xfer_in" 1 624 "int32(int8 bits)" `479 
+f G "spi_xfer_in" 1 624 "int32(int8 bits,int8 bits)" `479 
 f N "spi_xfer_in" 1 625 ""
 v L "stream" 1 625 "int8" `480 
 v L "bits" 1 625 "int8" `481 
@@ -879,15 +880,15 @@ f B "spi_xfer_in" 1 625 "int8(int8 stream,int8 bits)" `479
 f N "spi_xfer_in" 1 626 ""
 v L "stream" 1 626 "int8" `480 
 v L "bits" 1 626 "int8" `484 
-f G "spi_xfer_in" 1 626 "int16(int8 stream,int8 bits)" `482 
+f G "spi_xfer_in" 1 626 "int16(int8 stream,int8 bits,int8 task)" `482 
 f N "spi_xfer_in" 1 627 ""
 v L "stream" 1 627 "int8" `480 
 v L "bits" 1 627 "int8" `484 
-f G "spi_xfer_in" 1 627 "int32(int8 stream,int8 bits)" `482  "#use rtos() Prototypes:"
+f G "spi_xfer_in" 1 627 "int32(int8 stream,int8 bits,int8 task)" `482  "#use rtos() Prototypes:"
 f N "rtos_run" 1 630 ""
-f B "rtos_run" 1 630 "void(int8 stream,int8 bits)" `482 
+f B "rtos_run" 1 630 "void(int8 stream,int8 bits,int8 task)" `482 
 f N "rtos_yield" 1 631 ""
-f B "rtos_yield" 1 631 "void(int8 bits)" `483 
+f B "rtos_yield" 1 631 "void(int8 bits,int8 task)" `483 
 f N "rtos_enable" 1 632 ""
 v L "task" 1 632 "int8" `485 
 f B "rtos_enable" 1 632 "void(int8 task)" `484 
@@ -923,9 +924,9 @@ f B "rtos_stats" 1 642 "void(int8 task,*int8 stat)" `502  "#use timer() Prototyp
 f N "get_ticks" 1 645 ""
 f B "get_ticks" 1 645 "int8()" `505 
 f N "get_ticks" 1 646 ""
-f G "get_ticks" 1 646 "int16()" `506 
+f G "get_ticks" 1 646 "int16(int8 stream)" `506 
 f N "get_ticks" 1 647 ""
-f G "get_ticks" 1 647 "int32()" `506 
+f G "get_ticks" 1 647 "int32(int8 stream)" `506 
 f N "get_ticks" 1 648 ""
 v L "stream" 1 648 "int8" `507 
 f B "get_ticks" 1 648 "int8(int8 stream)" `506 
@@ -1401,36 +1402,29 @@ F G "clearDisplay" 0 63 "void()" `751
 F N "setDisplayPos" 0 71 ""
 V L "pos" 0 71 "int8" `753 
 F G "setDisplayPos" 0 71 "void(int8 pos)" `752 
-T G "MPU6050" 0 97 "{{int16 x,int16 y,int16 z} Accel,int16 Temperatura,{int16 x,int16 y,int16 z} Gyro}" `766  "test mpu6050"
-F N "MPU6050_init" 0 99 ""
-F G "MPU6050_init" 0 99 "void()" `767 
-C L "MPU6050_init" 0 27 1 "FUNCTION"
-C L "MPU6050_init" 0 27 1 "FUNCTION"
-C L "MPU6050_init" 0 27 1 "FUNCTION"
-F N "MPU6050_Read" 0 115 ""
-F G "MPU6050_Read" 0 116 "int16()" `768 
-V L "x" 0 122 "int16" `769 
-F N "distanceFromUltrasonic" 0 128 ""
-F G "distanceFromUltrasonic" 0 128 "float()" `770 
-V L "distance" 0 130 "float" `771 
+C L "distanceFromUltrasonic" 0 27 1 "FUNCTION"
+F N "distanceFromUltrasonic" 0 84 ""
+F G "distanceFromUltrasonic" 0 84 "float()" `754 
+V L "distance" 0 86 "float" `755 
 C L "distanceFromUltrasonic" 0 27 1 "FUNCTION"
 C L "distanceFromUltrasonic" 0 27 1 "FUNCTION"
 C L "distanceFromUltrasonic" 0 27 1 "FUNCTION"
 C L "distanceFromUltrasonic" 0 27 1 "FUNCTION"
 C L "setDistanceFromUltrasonic" 0 27 1 "FUNCTION"
-F N "setDistanceFromUltrasonic" 0 151 ""
-F G "setDistanceFromUltrasonic" 0 151 "float()" `772 
-V L "time" 0 152 "int16" `773 
+F N "setDistanceFromUltrasonic" 0 107 ""
+F G "setDistanceFromUltrasonic" 0 107 "float()" `756 
+V L "time" 0 108 "int16" `757 
 C L "setDistanceFromUltrasonic" 0 27 2 "FUNCTION"
-V L "distance" 0 167 "float" `774 
+V L "distance" 0 123 "float" `758 
 C L "setDistanceFromUltrasonic" 0 27 1 "FUNCTION"
 C L "setDistanceFromUltrasonic" 0 27 4 "FUNCTION"
-F N "MAIN" 0 178 ""
-F G "MAIN" 0 178 "void()" `775 
-V L "toFloor" 0 187 "float" `778 
+F N "MAIN" 0 134 ""
+F G "MAIN" 0 134 "void()" `759 
+V L "toFloor" 0 143 "float" `762 
+C L "MAIN" 0 27 2 "FUNCTION"
 C L "MAIN" 0 27 1 "FUNCTION"
-V L "x" 0 211 "int16" `781 
-V L "message" 0 216 "*int8" `795 
+C L "MAIN" 0 27 1 "FUNCTION"
+V L "message" 0 175 "*int8" `778 
 F B "reset_cpu" 0 0
 F B "abs" 1 0
 F B "sleep_ulpwu" 1 0

@@ -80,6 +80,34 @@ void setDisplayPos(int pos){
 //LCD Display Funtion 
 ///////////////////////////////////////////////////////////////////////////
 
+void MPU6050_init(){
+
+    i2c_start();
+    i2c_write( MPU6050_ADDRESS );
+    i2c_write( MPU6050_RA_PWR_MGMT_1 );
+    i2c_write( 2 ); //Sleep OFF
+    i2c_write( 0 ); 
+    i2c_stop();
+    i2c_start();
+    i2c_write( MPU6050_ADDRESS );
+    i2c_write( MPU6050_RA_GYRO_CONFIG );
+    i2c_write( 0 ); //gyro_config, +-250 ?/s
+    i2c_write( 0 ); //accel_config +-2g
+    i2c_stop();
+
+}
+int16 MPU6050_Read( )
+{
+ i2c_start();
+ i2c_write( MPU6050_ADDRESS );
+ i2c_write( MPU6050_RA_ACCEL_XOUT_H );
+ i2c_start();
+ i2c_write( MPU6050_ADDRESS | 1 );
+ int16 x = ( i2c_read(1) << 8 ) | i2c_read(0);
+
+ i2c_stop();
+   return x;
+}
 
 float distanceFromUltrasonic(){
 
@@ -147,11 +175,7 @@ void main() {
 
        
       rotaryR = read_adc();
-      //degree = 155.0*(1021 - rotaryR) / 387.0;
-      //degree = log((float)rotaryR) / log(1000.0)  * 1023;
-      degree = (float)degree*5/1023;
-      degree = degree*300 /5;
-     // degree = (degree*150.0)/511;
+      degree = 155.0*(1021 - rotaryR) / 387.0;
       distance = distanceFromUltrasonic();
 //      distance =setDistanceFromUltrasonic();
       
@@ -168,7 +192,8 @@ void main() {
       rad = degree * 0.0174533;
       tall = (tan(rad) * distance ) + toFloor;
  
-      printf("Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n",rotaryR,degree,distance,tall);
+      int16 x=MPU6050_Read();
+      printf("asd X=%lu  Sensor= %Lu\tDegree= %.2f\tDist= %.2f cm  tall=%f cm\r\n",x,rotaryR,degree,distance,tall);
       delay_ms(100);
       clearDisplay();
       setDisplayPos(1);
